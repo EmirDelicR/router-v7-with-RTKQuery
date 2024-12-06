@@ -1,14 +1,24 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
-import { render, renderHook, RenderHookOptions, RenderOptions } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router';
-import { MantineProvider } from '@mantine/core';
-import { AppStore, createStore, RootState } from '@/store';
-import { theme } from '@/theme';
+import React, { PropsWithChildren, ReactElement } from "react";
+import {
+  render,
+  renderHook,
+  RenderHookOptions,
+  RenderOptions,
+} from "@testing-library/react";
+import { Provider } from "react-redux";
+import {
+  createBrowserRouter,
+  createMemoryRouter,
+  RouterProvider,
+} from "react-router";
+import { MantineProvider } from "@mantine/core";
+import { AppStore, createStore, RootState } from "@/store";
+import { theme } from "@/theme";
+import { router } from "@/Router";
 
 // https://redux.js.org/usage/writing-tests
 
-interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   preloadedState?: Partial<RootState | Record<string, unknown>>;
   store?: AppStore;
 }
@@ -21,14 +31,21 @@ export function renderWithProviders(
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  function Wrapper({ children }: PropsWithChildren<Record<string, unknown>>): ReactElement {
-    return (
-      <BrowserRouter>
-        <Provider store={store}>
-          <MantineProvider theme={theme}>{children}</MantineProvider>
-        </Provider>
-      </BrowserRouter>
-    );
+  function Wrapper({
+    children,
+  }: PropsWithChildren<Record<string, unknown>>): ReactElement {
+    const router = createBrowserRouter([
+      {
+        path: "/",
+        element: (
+          <Provider store={store}>
+            <MantineProvider theme={theme}>{children}</MantineProvider>
+          </Provider>
+        ),
+      },
+    ]);
+
+    return <RouterProvider router={router} />;
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
@@ -46,7 +63,9 @@ export function renderHookWithProviders<TProps, TResult>(
     ...renderHookOptions
   }: ExtendedRenderHookOptions<TProps> = {}
 ) {
-  function Wrapper({ children }: PropsWithChildren<Record<string, unknown>>): ReactElement {
+  function Wrapper({
+    children,
+  }: PropsWithChildren<Record<string, unknown>>): ReactElement {
     return <Provider store={store}>{children}</Provider>;
   }
 

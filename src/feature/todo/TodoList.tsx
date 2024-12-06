@@ -9,7 +9,6 @@ import {
   Flex,
   List,
   ListItem,
-  LoadingOverlay,
   Pagination,
   Paper,
   Text,
@@ -25,7 +24,7 @@ export default function TodoList() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page") || 1);
-
+  console.log("data: ", data);
   const onChange = (p: number) => {
     searchParams.set("page", `${p}`);
     setSearchParams(searchParams);
@@ -37,11 +36,6 @@ export default function TodoList() {
 
   return (
     <Paper pos="relative" m="xl">
-      <LoadingOverlay
-        visible={false}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-      />
       <Flex direction="column" align="center" gap="lg">
         {navigation.state === "loading" ? (
           <Loader />
