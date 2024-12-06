@@ -24,7 +24,7 @@ export default function TodoItem() {
   const user = useRouteLoaderData<User>("user-detail");
   console.log("USER FROM TOP ROUTE: ", user);
 
-  let blocker = useBlocker(
+  const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
       currentLocation.pathname !== nextLocation.pathname
   );

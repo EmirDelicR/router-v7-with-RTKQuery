@@ -6,7 +6,7 @@ export default function ItemPage() {
   return <TodoItem />;
 }
 
-export function itemApiLoader({ params }: LoaderFunctionArgs) {
+export function itemLoader({ params }: LoaderFunctionArgs) {
   const { id } = params;
   return getTodoLoader({ todoId: id! });
 }
