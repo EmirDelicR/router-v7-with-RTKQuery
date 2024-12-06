@@ -118,6 +118,25 @@ export default function App() {
 }
 ```
 
+#### Absolute nad relative path
+
+This is very important if you are using `Link` and `navigate` hook
+
+```ts
+// your current route is https//localhost:3000/work
+
+// if you use note that id must be string:
+<Link to={id}>
+navigate(id)
+// this will append id to current route and you will get /work/id
+
+// if you use
+<Link to={`/${id}`}>
+navigate(`/${id}`)
+// this will make https//localhost:3000/id
+
+```
+
 #### Get route loading state
 
 ```js

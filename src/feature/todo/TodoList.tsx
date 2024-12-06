@@ -32,7 +32,7 @@ export default function TodoList() {
   };
 
   const navigateToItemDetails = (id: string) => () => {
-    navigate(`/work/${id}`, { viewTransition: true });
+    navigate(`${id}`, { viewTransition: true });
   };
 
   return (
