@@ -1,17 +1,19 @@
 import { Button, Group, Modal, Paper, Text, Title } from '@mantine/core';
-import { Link, useBlocker } from 'react-router';
+import { Link, useBlocker, useLocation, useNavigation } from 'react-router';
 
 export default function TodoDescription() {
+  const location = useLocation();
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
       currentLocation.pathname !== nextLocation.pathname
   );
+
   return (
     <Paper>
       <Text my="lg">
         This content will be shown and it will not wait until data is loaded
       </Text>
-      <Link to=".." viewTransition>
+      <Link to={`../?page=${location.state.page}`} viewTransition>
         <Button>Go back</Button>
       </Link>
 

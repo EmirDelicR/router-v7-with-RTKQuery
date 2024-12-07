@@ -1,5 +1,10 @@
 import { IconInfoCircle } from '@tabler/icons-react';
-import { useLoaderData, useNavigate, useNavigation } from 'react-router';
+import {
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useSearchParams,
+} from 'react-router';
 import {
   List,
   ListItem,
@@ -17,9 +22,14 @@ export default function TodoList() {
   const navigation = useNavigation();
   const data = useLoaderData<Todo[]>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const paginationPage = Number(searchParams.get('page') || 1);
 
   const navigateToItemDetails = (id: string) => () => {
-    navigate(`${id}`, { viewTransition: true });
+    navigate(`${id}`, {
+      viewTransition: true,
+      state: { page: paginationPage },
+    });
   };
 
   return (
