@@ -6,12 +6,12 @@ import {
   useSearchParams,
 } from 'react-router';
 import {
-  Flex,
   List,
   ListItem,
   LoadingOverlay,
   Pagination,
   Paper,
+  Stack,
   Text,
   ThemeIcon,
   Title,
@@ -35,18 +35,19 @@ export default function TodoList() {
   };
 
   return (
-    <Paper pos="relative" m="xl">
-      <Flex direction="column" align="center" gap="lg">
-        <LoadingOverlay visible={navigation.state === 'loading'} />
+    <Paper m="xl">
+      <Stack align="center">
         <List
           spacing="xs"
           size="sm"
+          pos="relative"
           icon={
             <ThemeIcon bg="none" variant="light">
               <IconInfoCircle />
             </ThemeIcon>
           }
         >
+          <LoadingOverlay visible={navigation.state === 'loading'} />
           {data?.map((item) => (
             <ListItem
               data-testid="list-item"
@@ -69,7 +70,7 @@ export default function TodoList() {
         </List>
 
         <Pagination total={2} value={currentPage} onChange={onChange} mt="sm" />
-      </Flex>
+      </Stack>
     </Paper>
   );
 }
