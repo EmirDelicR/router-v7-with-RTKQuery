@@ -1,74 +1,48 @@
-import { IconBriefcase } from "@tabler/icons-react";
-import {
-  Link,
-  useBlocker,
-  useLoaderData,
-  useRouteLoaderData,
-} from "react-router";
+import { IconBriefcase } from '@tabler/icons-react';
+import { useLoaderData, useNavigation, useRouteLoaderData } from 'react-router';
 import {
   Box,
-  Button,
+  Container,
   Divider,
-  Flex,
   Group,
-  Modal,
+  LoadingOverlay,
   Paper,
+  Stack,
   Text,
   Title,
-} from "@mantine/core";
-import { User } from "@/store/globalState/globalApiSlice";
-import { Todo } from "./store/todoApiSlice";
+} from '@mantine/core';
+import { User } from '@/store/globalState/globalApiSlice';
+import { Todo } from './store/todoApiSlice';
 
 export default function TodoItem() {
+  const navigation = useNavigation();
   const item = useLoaderData<Todo>();
-  const user = useRouteLoaderData<User>("user-detail");
-  console.log("USER FROM TOP ROUTE: ", user);
-
-  const blocker = useBlocker(
-    ({ currentLocation, nextLocation }) =>
-      currentLocation.pathname !== nextLocation.pathname
-  );
+  const user = useRouteLoaderData<User>('user-detail');
+  console.log('USER FROM TOP ROUTE: ', user);
 
   return (
     <Paper pos="relative" m="xl">
       <Title order={3}>Hello {user?.name}</Title>
-      <Divider mb={"lg"} />
-      <Flex direction="column" gap="lg">
-        <Title order={2}>
-          <Group>
-            <IconBriefcase />
-            {item.title}
-          </Group>
-        </Title>
-        <Box>
-          <Title order={4}>Description:</Title>
-          <Text>{item.description}</Text>
-        </Box>
-        <Box>
-          <Title order={4}>ID:</Title>
-          <Text>{item.id}</Text>
-        </Box>
-
-        <Link to=".." viewTransition>
-          <Button>Go back</Button>
-        </Link>
-      </Flex>
-      <Modal
-        opened={blocker.state === "blocked"}
-        onClose={() => {}}
-        withCloseButton={false}
-        centered
-        size={"lg"}
-      >
-        <Title>Are you sure you want to leave?</Title>
-
-        <Group my="xl" grow>
-          <Button onClick={() => blocker?.proceed?.()}>Proceed</Button>
-          <Button onClick={() => blocker?.reset?.()} variant="light">
-            Cancel
-          </Button>
-        </Group>
-      </Modal>
+      <Divider mb="lg" />
+      <Container pos="relative">
+        <LoadingOverlay visible={navigation.state === 'loading'} />
+        <Stack gap="lg">
+          <Title order={2}>
+            <Group>
+              <IconBriefcase />
+              {item.title}
+            </Group>
+          </Title>
+          <Box>
+            <Title order={4}>Description:</Title>
+            <Text>{item.description}</Text>
+          </Box>
+          <Box>
+            <Title order={4}>ID:</Title>
+            <Text>{item.id}</Text>
+          </Box>
+        </Stack>
+      </Container>
     </Paper>
   );
 }
