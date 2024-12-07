@@ -1,5 +1,5 @@
 import { IconBriefcase } from '@tabler/icons-react';
-import { useLoaderData, useNavigation, useRouteLoaderData } from 'react-router';
+import { useNavigation, useRouteLoaderData } from 'react-router';
 import {
   Box,
   Container,
@@ -14,9 +14,8 @@ import {
 import { User } from '@/store/globalState/globalApiSlice';
 import { Todo } from './store/todoApiSlice';
 
-export default function TodoItem() {
+export default function TodoItem({ item }: { item: Todo }) {
   const navigation = useNavigation();
-  const item = useLoaderData<Todo>();
   const user = useRouteLoaderData<User>('user-detail');
   console.log('USER FROM TOP ROUTE: ', user);
 
