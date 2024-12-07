@@ -1,15 +1,9 @@
 import { IconInfoCircle } from '@tabler/icons-react';
-import {
-  useLoaderData,
-  useNavigate,
-  useNavigation,
-  useSearchParams,
-} from 'react-router';
+import { useLoaderData, useNavigate, useNavigation } from 'react-router';
 import {
   List,
   ListItem,
   LoadingOverlay,
-  Pagination,
   Paper,
   Stack,
   Text,
@@ -17,18 +11,12 @@ import {
   Title,
 } from '@mantine/core';
 import { Todo } from './store/todoApiSlice';
+import CustomPagination from '@/UI/components/pagination/Pagination';
 
 export default function TodoList() {
   const navigation = useNavigation();
   const data = useLoaderData<Todo[]>();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = Number(searchParams.get('page') || 1);
-
-  const onChange = (p: number) => {
-    searchParams.set('page', `${p}`);
-    setSearchParams(searchParams);
-  };
 
   const navigateToItemDetails = (id: string) => () => {
     navigate(`${id}`, { viewTransition: true });
@@ -69,7 +57,7 @@ export default function TodoList() {
           ))}
         </List>
 
-        <Pagination total={2} value={currentPage} onChange={onChange} mt="sm" />
+        <CustomPagination totalCount={4} />
       </Stack>
     </Paper>
   );
